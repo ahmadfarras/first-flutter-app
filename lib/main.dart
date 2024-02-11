@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       case 0:
         page = GeneratorPage();
       case 1:
-        page = Placeholder();
+        page = FavoritePage();
       default:
         throw UnimplementedError('No page for index $selectedIndex');
     }
@@ -148,6 +148,28 @@ class GeneratorPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class FavoritePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+    var favorites = appState.favorites;
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: favorites.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: BigCard(pair: favorites[index]),
+          onTap: () {
+            appState.current = favorites[index];
+            appState.toogleFavorite();
+          },
+        );
+      },
     );
   }
 }
